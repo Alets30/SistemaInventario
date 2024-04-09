@@ -6,11 +6,11 @@ using SistemaInventario.Utilidades;
 namespace SistemaInventario.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class BodegaController : Controller
+    public class CategoriaController : Controller
     {
         private readonly IUnidadTrabajo _unidadTrabajo;
 
-        public BodegaController(IUnidadTrabajo unidadTrabajo)
+        public CategoriaController(IUnidadTrabajo unidadTrabajo)
         {
                 _unidadTrabajo = unidadTrabajo;
         }
@@ -23,63 +23,63 @@ namespace SistemaInventario.Areas.Admin.Controllers
         //Método Upsert GET
         public async Task <IActionResult> Upsert(int? id)
         {
-            Bodega bodega = new Bodega();
+            Categoria categoria = new Categoria();
             if (id == null)
             {
                 //Creamos un nuevo registro
-                bodega.Estado = true;
-                return View(bodega);
+                categoria.Estado = true;
+                return View(categoria);
             }
-            bodega = await _unidadTrabajo.Bodega.Obtener(id.GetValueOrDefault());
-            if(bodega == null)
+            categoria = await _unidadTrabajo.Categoria.Obtener(id.GetValueOrDefault());
+            if(categoria == null)
             {
                 return NotFound();
             }
-            return View(bodega);
+            return View(categoria);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Upsert(Bodega bodega)
+        public async Task<IActionResult> Upsert(Categoria categoria)
         {
             if(ModelState.IsValid)
             {
-                if (bodega.Id == 0) 
+                if (categoria.Id == 0) 
                 {
-                    await _unidadTrabajo.Bodega.Agregar(bodega);
-                    TempData[DS.Exitosa] = "La Bodega se creó con Éxito.";
+                    await _unidadTrabajo.Categoria.Agregar(categoria);
+                    TempData[DS.Exitosa] = "La Categoría se creó con Éxito.";
                 }
                 else
                 {
-                    _unidadTrabajo.Bodega.Actualizar(bodega);
-					TempData[DS.Exitosa] = "La Bodega se actualizó con Éxito.";
+                    _unidadTrabajo.Categoria.Actualizar(categoria);
+					TempData[DS.Exitosa] = "La Categoría se actualizó con Éxito.";
 				}
                 await _unidadTrabajo.Guardar();
                 return RedirectToAction(nameof(Index));
             }
-            TempData[DS.Error] = "Error al Grabar la Bodega.";
-            return View(bodega);
+            TempData[DS.Error] = "Error al Grabar la Categoria.";
+            return View(categoria);
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            var bodegaDB = await _unidadTrabajo.Bodega.Obtener(id);
-            if(bodegaDB == null)
+            var categoriaDB = await _unidadTrabajo.Categoria.Obtener(id);
+            if(categoriaDB == null)
             {
                 return Json(new {success=false, message = "Error al borrar el Registro en la Base de Datos."});
             }
-            _unidadTrabajo.Bodega.Remover(bodegaDB);
+            _unidadTrabajo.Categoria.Remover(categoriaDB);
             await _unidadTrabajo.Guardar();
-            return Json(new { success = true, message = "Bodega eliminada con éxito."});
+            return Json(new { success = true, message = "Categoría eliminada con éxito."});
         }
 
         #region API
         [HttpGet]
         public async Task <IActionResult> ObtenerTodos()
         {
-            var todos = await _unidadTrabajo.Bodega.ObtenerTodos();
+            var todos = await _unidadTrabajo.Categoria.ObtenerTodos();
             return Json(new {data = todos});
         }
 
@@ -87,7 +87,7 @@ namespace SistemaInventario.Areas.Admin.Controllers
         public async Task<IActionResult> ValidarNombre(string nombre, int id=0)
         {
             bool valor = false;
-            var lista = await _unidadTrabajo.Bodega.ObtenerTodos();
+            var lista = await _unidadTrabajo.Categoria.ObtenerTodos();
 
             if(id == 0)
             {
