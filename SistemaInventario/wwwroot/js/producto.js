@@ -1,24 +1,24 @@
 ﻿let datatable;
-
 $(document).ready(function () {
     loadDataTable();
+
 });
 
 function loadDataTable() {
-    datatable = $("#tblDatos").DataTable({
+    datatable = $('#tblDatos').DataTable({
         "ajax": {
             "url": "/Admin/Producto/ObtenerTodos"
         },
         "columns": [
-            { "data": "numeroSerie" },
+            { "data": "numeroSerie"},
             { "data": "descripcion" },
-            { "data": "categoria.nombre" },
-            { "data": "marca.nombre" },
+            { "data": "categoria.nombre"},
+            { "data": "marca.nombre"},
             {
                 "data": "precio", "className": "text-end",
                 "render": function (data) {
                     var d = data.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-                    return d;
+                    return d
                 }
             },
             {
@@ -26,11 +26,10 @@ function loadDataTable() {
                 "render": function (data) {
                     if (data == true) {
                         return "Activo";
-                    }
-                    else {
+                    } else {
                         return "Inactivo";
                     }
-                }
+                }, "width": "20%"
             },
             {
                 "data": "id",
@@ -40,12 +39,12 @@ function loadDataTable() {
                             <a href="/Admin/Producto/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <a onclick=Delete("/Admin/Producto/Delete/${data}") class="btn btn-danger text-white" style="cursor: pointer">
+                            <a onclick=Delete("/Admin/Producto/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                                 <i class="bi bi-trash3-fill"></i>
                             </a>
                         </div>
                     `;
-                }, width: "20%"
+                }, "width": "20%"
             }
         ],
         "language": {
@@ -53,7 +52,7 @@ function loadDataTable() {
             "emptyTable": "No hay datos disponibles en la tabla",
             "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas totales",
             "infoEmpty": "Mostrando de 0 a 0 en 0 entradas",
-            "infoFiltered": "(Filtrado de _MAX_ entradas totales)",
+            "infoFiltered": "(Filtrado de MAX entradas totales)",
             "infoPostFix": "",
             "thousands": ",",
             "lengthMenu": "Mostrar _MENU_ Entradas",
@@ -72,13 +71,14 @@ function loadDataTable() {
                 "orderableReverse": "Ordena al revés por esta columna"
             }
         }
+
     });
 }
 
 function Delete(url) {
     swal({
-        title: "¿Estás seguro que deseas Eliminar el PRODUCTO?",
-        text: "Este registro no se podrá recuperar.",
+        title: "Seguro que quieres eliminar los productos?",
+        text: "Este registro no se podra recuperar",
         icon: "warning",
         buttons: true,
         dangerMode: true
@@ -90,7 +90,7 @@ function Delete(url) {
                 success: function (data) {
                     if (data.success) {
                         toastr.success(data.message);
-                        //Actualizar la tabla
+                        //actualizar la tabla
                         datatable.ajax.reload();
                     }
                     else {

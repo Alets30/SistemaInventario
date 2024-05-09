@@ -85,6 +85,25 @@
                             <span asp-validation-for="Producto.MarcaId" class="text-danger"></span>
                         </div>
                     </div>
+
+                    <!--Lista Productos-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Producto Padre</label>
+                            <select asp-for="Producto.PadreId" asp-items="@Model.PadreLista" class="form-select">
+                                <option selected disabled>--Selecciona un producto Padre--</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--Campo Estado-->
+                    <div class="row mb-2 mt-2 ">
+                        <div class="form-group col-md-6">
+                            <label>Estado</label>
+                            <input class="form-check-input form-control" type="checkbox" role="switch" asp-for="Producto.Estado">
+                            <span asp-validation-for="Producto.Estado" class="text-danger"></span>
+                        </div>
+                    </div>
                     <!--Botones-->
                     <br />
                     <div class="d-grid gap-2 d-md-block">
