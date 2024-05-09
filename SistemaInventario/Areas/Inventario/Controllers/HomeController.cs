@@ -20,12 +20,6 @@ namespace SistemaInventario.Areas.Inventario.Controllers
             _unidadTrabajo = unidadTrabajo;
         }
 
-        public async Task<IActionResult> IndexAsync()
-        {
-            IEnumerable<Producto> productoLista = await _unidadTrabajo.Producto.ObtenerTodos();
-            return View(productoLista);
-        }
-
         public IActionResult Index(int pageNumber = 1, string busqueda = "", string busquedaActual = "")
         {
             if(!String.IsNullOrEmpty(busqueda))
